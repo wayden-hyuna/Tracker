@@ -1,7 +1,4 @@
 {
+    "jwtPrivateKey": "tracker_jwtPrivateKey"
 
-    "mail": 
-    {
-        "password": "todo_app_password"
-    }
 }

@@ -1,6 +1,4 @@
 {
-    "name": "My ToDo Express App - Production",
-    "mail": {
-        "host": "prod-mail-server"
-    }
+    "name": "My ToDo Express App - Production"
+    
 }

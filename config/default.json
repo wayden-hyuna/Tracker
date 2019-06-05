@@ -1,3 +1,4 @@
 {
-    "name": "My Express ToDo App"
+    "jwtPrivateKey": "",
+    "name": "To-Do Tracker"
 }

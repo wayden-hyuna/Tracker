@@ -75,7 +75,7 @@ module.exports = {
             dbDebugger(result);
             return res.send(task);
         }
-        catch(ex){ for(field in ex.errors) dbDebugger(ex.error[field]);}     
+        catch(ex){ for(field in ex.errors) dbDebugger(ex.error[field]); res.boom.badImplementation('Something failed.')}     
 
         
     },

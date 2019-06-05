@@ -6,6 +6,7 @@ const startupDebugger = require('debug')('app:startup');
 const morgan = require('morgan');
 const path = require('path');
 const fs = require('fs');
+const auth = require('../middleware/auth');
 
 
 var accessLogStream = fs.createWriteStream(path.join(__dirname, '../logs/access.log'), { flags: 'a' })
@@ -32,7 +33,7 @@ router.get('/:id', (req, res) => {
 });
 
 //for adding
-router.post('/', (req, res) =>{
+router.post('/', auth, (req, res) =>{
 
     crud.createTask(req, res);
 
@@ -40,20 +41,20 @@ router.post('/', (req, res) =>{
 
 
 //for updating
-router.put('/:id', (req, res) => {
+router.put('/:id', auth, (req, res) => {
     
     crud.updateTask(req, res);
 
 });
 
 //for deleting
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth, (req, res) => {
 
     crud.deleteOne(req, res);
 
 });
 
-router.delete('/', (req, res) => {
+router.delete('/', auth, (req, res) => {
 
     crud.deleteAll(req, res);
     res.sendStatus(200);

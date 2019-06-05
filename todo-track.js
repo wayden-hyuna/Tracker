@@ -1,3 +1,4 @@
+const winston = require ('winston');
 const startupDebugger = require('debug')('app:startup');
 const dbDebugger = require('debug')('app:db');
 const config = require('config');
@@ -5,7 +6,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const boom = require('express-boom');
 const logger = require('./middleware/logger');
-const authenticator = require('./middleware/authenticator');
+const authenticator = require('./middleware/auth');
 const tasks = require('./routes/tasks');
 const home = require('./routes/home');
 const auth = require('./routes/auth')
@@ -16,6 +17,10 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 
+process.on('uncaughtException', (ex) =>{
+    console.log('WE GOT AN UNCAUGHT EXCEPTION');
+    wiston.error(ex.message, ex);
+})
 
 //Middleware
 app.set('view engine', 'pug');
@@ -25,18 +30,21 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.use(helmet());
-app.use('/api/tasks', tasks);
 app.use('/', home);
 app.use('/api/auth', auth);
 app.use('/api/users', registers);
+app.use('/api/tasks', tasks);
 
 
 
 //Configuration
+//setting private key in the environment using export=tracker_jwtPrivateKey=mySecureKey
 
-// console.log('Application Name: ' + config.get('name'));
-// console.log('Mail Server: ' + config.get('mail.host'));
-// console.log('Mail Password: ' + config.get('mail.password'));
+if(!config.get('jwtPrivateKey')){
+    console.error('FATAL ERROR: jwtPrivateKey is not defined.');
+    process.exit(1);
+}
+console.log('Application Name: ' + config.get('name'));
 
 
 //Custom Middleware

@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth')
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const express = require('express');
@@ -18,6 +19,12 @@ if(process.env.NODE_ENV == 'development'){
 }
 
 
+router.get('/me', auth, async (req, res) =>{
+
+    const user = await User.findById(req.user._id).select('-password')
+    res.send(user);
+});
+
 router.post('/', async (req, res) =>{
 
     const {error} = validateUser(req.body);
@@ -37,8 +44,13 @@ router.post('/', async (req, res) =>{
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
         const result = await user.save();
-        dbDebugger(result);      
-        return res.send(_.pick(user, ['_id', 'name', 'email']));
+        dbDebugger(result); 
+
+        const token = user.generateAuthToken();
+        
+        //for custom headers defined in app we should prefix them with 'x-' then we give it an arbitrary name followed by the value(item being sent)
+        //in the client we can look at the header and use the token in there and store it and next time a request is sent we can send the token to the server
+        return res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
     }
     catch(ex){ for(field in ex.errors) dbDebugger(ex.error[field]);}   
 

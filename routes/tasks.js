@@ -2,10 +2,18 @@ const express = require('express');
 const router = express.Router();
 const crud = require('../mongo-crud/crudMongo')
 const mongoose = require('mongoose');
-const dbDebugger = require('debug')('app:db');
+const startupDebugger = require('debug')('app:startup');
 const morgan = require('morgan');
 const path = require('path');
 const fs = require('fs');
+
+
+var accessLogStream = fs.createWriteStream(path.join(__dirname, '../logs/access.log'), { flags: 'a' })
+
+if(process.env.NODE_ENV == 'development'){
+    startupDebugger('Morgan is enabled in tasks route');
+    router.use(morgan('combined', { stream: accessLogStream, /*skip: function (req, res) { return res.statusCode < 400 }*/ }));
+}
 
 
 //for getting all

@@ -4,7 +4,18 @@ const express = require('express');
 const router = express.Router();
 const dbDebugger = require('debug')('app:db');
 const {User, validateUser, validateLogin} = require('../models/user');
+const morgan = require('morgan');
+const startupDebugger = require('debug')('app:startup');
+const path = require('path');
+const fs = require('fs');
 
+
+var accessLogStream = fs.createWriteStream(path.join(__dirname, '../logs/access.log'), { flags: 'a' })
+
+if(process.env.NODE_ENV == 'development'){
+    startupDebugger('Morgan is enabled in users route');
+    router.use(morgan('combined', { stream: accessLogStream, /*skip: function (req, res) { return res.statusCode < 400 }*/ }));
+}
 
 
 router.post('/', async (req, res) =>{

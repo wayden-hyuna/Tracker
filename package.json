@@ -1,0 +1,26 @@
+{
+  "name": "tracker",
+  "version": "1.0.0",
+  "description": "tracker ",
+  "main": "todo-track.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "config": "^3.1.0",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "express-boom": "^3.0.0",
+    "helmet": "^3.18.0",
+    "joi": "^14.3.1",
+    "joi-password-complexity": "^2.0.1",
+    "lodash": "^4.17.11",
+    "mongodb": "^3.2.6",
+    "mongoose": "^5.5.12",
+    "morgan": "^1.9.1",
+    "pug": "^2.0.3"
+  }
+}

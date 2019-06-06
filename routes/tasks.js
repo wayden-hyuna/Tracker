@@ -1,3 +1,4 @@
+const asyncMiddleware = require('../middleware/async')
 const express = require('express');
 const router = express.Router();
 const crud = require('../mongo-crud/crudMongo')
@@ -18,48 +19,48 @@ if(process.env.NODE_ENV == 'development'){
 
 
 //for getting all
-router.get('/', (req, res) =>{
+router.get('/',asyncMiddleware( async (req, res) =>{
 
     crud.getTasks(req, res);
 
-});
+}));
 
 
 //for getting 1
-router.get('/:id', (req, res) => {
+router.get('/:id', asyncMiddleware( async(req, res) => {
 
     crud.getTaskById(req, res);
 
-});
+}));
 
 //for adding
-router.post('/', auth, (req, res) =>{
+router.post('/', auth, asyncMiddleware( async(req, res) =>{
 
     crud.createTask(req, res);
 
-});
+}));
 
 
 //for updating
-router.put('/:id', auth, (req, res) => {
+router.put('/:id', auth, asyncMiddleware( async(req, res) => {
     
     crud.updateTask(req, res);
 
-});
+}));
 
 //for deleting
-router.delete('/:id', auth, (req, res) => {
+router.delete('/:id', auth, asyncMiddleware( async(req, res) => {
 
     crud.deleteOne(req, res);
 
-});
+}));
 
-router.delete('/', auth, (req, res) => {
+router.delete('/', auth, asyncMiddleware( async(req, res) => {
 
     crud.deleteAll(req, res);
     res.sendStatus(200);
 
-});
+}));
 
 
 module.exports = router;

@@ -54,7 +54,10 @@ router.post('/', async (req, res) =>{
         return res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
     }
     
-    catch(ex){ for(field in ex.errors) dbDebugger(ex.error[field]);}   
+    catch(ex){ for(field in ex.errors) dbDebugger(ex.error[field]);
+        return res.boom.notFound('task with given id not found.');
+
+    }   
 
 });
 

@@ -1,3 +1,4 @@
+const error = require('./middleware/error')
 const winston = require ('winston');
 const startupDebugger = require('debug')('app:startup');
 const dbDebugger = require('debug')('app:db');
@@ -5,8 +6,6 @@ const config = require('config');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const boom = require('express-boom');
-const logger = require('./middleware/logger');
-const authenticator = require('./middleware/auth');
 const tasks = require('./routes/tasks');
 const home = require('./routes/home');
 const auth = require('./routes/auth')
@@ -53,6 +52,8 @@ app.use(express.static(__dirname + "/public/js"));
 app.use(express.static(__dirname));
 
 
+app.use(error);
+
 //Configuration
 //setting private key in the environment using export=tracker_jwtPrivateKey=mySecureKey
 
@@ -63,28 +64,17 @@ if(!config.get('jwtPrivateKey')){
 console.log('Application Name: ' + config.get('name'));
 
 
-//Custom Middleware
-
-// app.use(logger);
-// app.use(authenticator);
-
-//When using debugging, you have to set the environment variable to the namespace for that particular debugger....export DEBUG=app:startup etc. or multiple DEBUG=app:startup,app:db OR use wild card DEBUG=app:*
-
-
-////////////////
-/////////////////////
-
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => startupDebugger(`Gator listening on port ${port}`));
 
 
 var accessLogStream = fs.createWriteStream(path.join(__dirname, './logs/access.log'), { flags: 'a' })
- 
+
 
 if(process.env.NODE_ENV === 'development'){
-    startupDebugger('Morgan is enabled');
-    app.use(morgan('combined', { stream: accessLogStream, /*skip: function (req, res) { return res.statusCode < 400 }*/ }));
+  startupDebugger('Morgan is enabled');
+  app.use(morgan('combined', { stream: accessLogStream, /*skip: function (req, res) { return res.statusCode < 400 }*/ }));
 }
 
 mongoose.connect('mongodb://localhost/todo-trackerDB', {useNewUrlParser: true})
@@ -92,15 +82,6 @@ mongoose.connect('mongodb://localhost/todo-trackerDB', {useNewUrlParser: true})
 .catch((err) => console.error('Could not connect to MongoDB \n', err));
 
 
-
-
-
-
-
-
-
-
-
-
 //route params for necessary info
 //query string params for any additional data
+//When using debugging, you have to set the environment variable to the namespace for that particular debugger....export DEBUG=app:startup etc. or multiple DEBUG=app:startup,app:db OR use wild card DEBUG=app:*

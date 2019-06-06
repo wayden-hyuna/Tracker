@@ -16,11 +16,25 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
+const hbs = require("express-handlebars");
+
 
 process.on('uncaughtException', (ex) =>{
     console.log('WE GOT AN UNCAUGHT EXCEPTION');
     wiston.error(ex.message, ex);
 })
+
+app.engine(
+    "hbs",
+    hbs({
+      extname: "hbs",
+      defaultLayout: "layout",
+      layoutsDir: __dirname + "/views/layouts"
+    })
+  );
+  app.set("views", path.join(__dirname, "views"));
+  app.set("view engine", "hbs");
+  
 
 //Middleware
 app.set('view engine', 'pug');
@@ -34,7 +48,11 @@ app.use('/', home);
 app.use('/api/auth', auth);
 app.use('/api/users', registers);
 app.use('/api/tasks', tasks);
-
+app.use(express.static(__dirname + "/css"));
+app.use(express.static(__dirname + "/img"));
+app.use(express.static(__dirname + "/views"));
+app.use(express.static(__dirname + "/js"));
+app.use(express.static(__dirname));
 
 
 //Configuration

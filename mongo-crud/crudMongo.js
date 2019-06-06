@@ -7,10 +7,18 @@ module.exports = {
 
     getTasks: async function (req, res){
 
-        const tasks = await Task 
-            .find();
 
-        return res.send(tasks);
+        try{
+            const tasks = await Task 
+                .find();
+            return res.send(tasks);
+        }
+        catch(ex){
+            dbDebugger(ex.stack);
+                return res.boom.notFound('task with given id not found.');
+        }
+
+
     },
 
     getTaskById: async function (req, res){
@@ -61,6 +69,7 @@ module.exports = {
         const {error} = validatetask(req.body);
         if (error){return res.boom.badRequest(error.details[0].message)}
         
+        try{
         const task = await Task.findById(req.params.id);
 
         dbDebugger(task);
@@ -70,7 +79,6 @@ module.exports = {
         task.status = req.body.status;
         if(task.status){task.completed = Date();}
 
-        try{
             const result = await task.save();
             dbDebugger(result);
             return res.send(task);
@@ -82,13 +90,24 @@ module.exports = {
 
 
     deleteOne: async function (req, res){
-        const result = await Task.findByIdAndDelete(req.params.id);
-        if(!result){return res.boom.notFound('task with given id not found.')}; 
-        return res.send(result);
+        try{
+            const result = await Task.findByIdAndDelete(req.params.id);
+            if(!result){return res.boom.notFound('task with given id not found.')}; 
+            return res.send(result);
+        }
+        catch(ex){
+            dbDebugger(ex.stack);
+            return res.boom.notFound('task with given id not found.');
+        }
     },
 
     deleteAll: async function (req, res){
-    return (Task.deleteMany({}, err => {dbDebugger(err);}))
+        try{
+            return (Task.deleteMany({}, err => {dbDebugger(err);}))
+        } 
+        catch(ex){
+            dbDebugger(ex.stack);
+            return res.boom.notFound('task with given id not found.');
+        }
     }
-
 };

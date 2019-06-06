@@ -21,7 +21,7 @@ const hbs = require("express-handlebars");
 
 process.on('uncaughtException', (ex) =>{
     console.log('WE GOT AN UNCAUGHT EXCEPTION');
-    wiston.error(ex.message, ex);
+    winston.error(ex.message, ex);
 })
 
 

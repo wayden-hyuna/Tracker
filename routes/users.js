@@ -26,20 +26,21 @@ router.get('/me', auth, async (req, res) =>{
 });
 
 router.post('/', async (req, res) =>{
-
-    const {error} = validateUser(req.body);
-        
-    if (error){return res.boom.badRequest(error.details[0].message)}
-
-    let user = await User.findOne({email: req.body.email});
-
-    if(user){return res.boom.badRequest('User already registered.')}
-
-    user = new User(_.pick(req.body, ['name', 'email', 'password']));
-
-    //underscore/lodash allows for formatting of several data types, check documentation...dbDebugger.it is used with the object here and an array to pull out specific attributes by name rather than using req.body
-
+    
     try{
+
+        const {error} = validateUser(req.body);
+            
+        if (error){return res.boom.badRequest(error.details[0].message)}
+
+        let user = await User.findOne({email: req.body.email});
+
+        if(user){return res.boom.badRequest('User already registered.')}
+
+        user = new User(_.pick(req.body, ['name', 'email', 'password']));
+
+        //underscore/lodash allows for formatting of several data types, check documentation...dbDebugger.it is used with the object here and an array to pull out specific attributes by name rather than using req.body
+
 
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
@@ -52,6 +53,7 @@ router.post('/', async (req, res) =>{
         //in the client we can look at the header and use the token in there and store it and next time a request is sent we can send the token to the server
         return res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
     }
+    
     catch(ex){ for(field in ex.errors) dbDebugger(ex.error[field]);}   
 
 });

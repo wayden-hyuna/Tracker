@@ -5,7 +5,7 @@ const config  = require('config');
 module.exports = function (req,res,next){
 
     const token = req.header('x-auth-token');
-   if(!token) return res.boom.unauthorized('access denied. No token provided');
+   if(!token) return res.boom.unauthorized('access denied. No token provided').redirect('/login');
 
    try{
        

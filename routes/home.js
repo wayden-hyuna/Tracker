@@ -18,8 +18,18 @@ if(process.env.NODE_ENV == 'development'){
 router.get('/', (req, res) =>{
 
 
-    
+
     res.render('index',{title:'Todo Tracker', message: 'Hello mate!'});
+
+
+
+});
+
+router.get('/login', (req, res) =>{
+
+
+    
+    res.render('login',{title:'Todo Tracker', message: 'Hello mate!'});
 
 
 

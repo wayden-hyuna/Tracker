@@ -18,6 +18,16 @@ const express = require('express');
 const app = express();
 const hbs = require("express-handlebars");
 
+winston.add(new winston.transports.File({
+  filename: 'errlogfile.log',
+  handleExceptions: true
+}));
+
+
+if(!config.get('jwtPrivateKey')){
+  console.error('FATAL ERROR: jwtPrivateKey is not defined.');
+  process.exit(1);
+}
 
 process.on('uncaughtException', (ex) =>{
     console.log('WE GOT AN UNCAUGHT EXCEPTION');
@@ -58,10 +68,6 @@ app.use(error);
 //Configuration
 //setting private key in the environment using export=tracker_jwtPrivateKey=mySecureKey
 
-if(!config.get('jwtPrivateKey')){
-    console.error('FATAL ERROR: jwtPrivateKey is not defined.');
-    process.exit(1);
-}
 console.log('Application Name: ' + config.get('name'));
 
 

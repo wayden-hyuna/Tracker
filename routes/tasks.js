@@ -20,6 +20,7 @@ if(process.env.NODE_ENV == 'development'){
 //for getting all
 router.get('/', async (req, res) =>{
 
+    throw new Error('Could not get the tasks');
     crud.getTasks(req, res);
 
 });

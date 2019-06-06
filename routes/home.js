@@ -12,8 +12,17 @@ if(process.env.NODE_ENV == 'development'){
     router.use(morgan('combined', { stream: accessLogStream, /*skip: function (req, res) { return res.statusCode < 400 }*/ }));
 }
 
+
+
+
 router.get('/', (req, res) =>{
-    res.render('index',{title:'My Express App', message: 'Hello'});
+
+
+    
+    res.render('index',{title:'Todo Tracker', message: 'Hello mate!'});
+
+
+
 });
 
 

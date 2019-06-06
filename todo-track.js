@@ -24,20 +24,19 @@ process.on('uncaughtException', (ex) =>{
     wiston.error(ex.message, ex);
 })
 
+
+//Middleware
 app.engine(
     "hbs",
     hbs({
       extname: "hbs",
       defaultLayout: "layout",
-      layoutsDir: __dirname + "/views/layouts"
+      layoutsDir: __dirname + "/public/views/layouts"
     })
   );
-  app.set("views", path.join(__dirname, "views"));
+  app.set("views", path.join(__dirname, "/public/views"));
   app.set("view engine", "hbs");
   
-
-//Middleware
-app.set('view engine', 'pug');
 app.set('views', './public/views');
 app.use(boom());
 app.use(express.json());
@@ -48,10 +47,9 @@ app.use('/', home);
 app.use('/api/auth', auth);
 app.use('/api/users', registers);
 app.use('/api/tasks', tasks);
-app.use(express.static(__dirname + "/css"));
-app.use(express.static(__dirname + "/img"));
-app.use(express.static(__dirname + "/views"));
-app.use(express.static(__dirname + "/js"));
+app.use(express.static(__dirname + "/public/css"));
+app.use(express.static(__dirname + "/public/views"));
+app.use(express.static(__dirname + "/public/js"));
 app.use(express.static(__dirname));
 
 

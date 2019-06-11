@@ -26,8 +26,6 @@ process.on('uncaughtException', (ex) =>{
 });
 
 
-nfkeml();
-
 winston.add(new winston.transports.File({
   filename: 'errlogfile.log',
   handleExceptions: true,

@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const crud = require('../mongo-crud/crudMongo')
-const mongoose = require('mongoose');
 const startupDebugger = require('debug')('app:startup');
 const morgan = require('morgan');
 const path = require('path');
@@ -18,7 +17,7 @@ if(process.env.NODE_ENV == 'development'){
 
 
 //for getting all
-router.get('/', async (req, res) =>{
+router.get('/', auth, async (req, res) =>{
 
     crud.getTasks(req, res);
 
@@ -26,7 +25,7 @@ router.get('/', async (req, res) =>{
 
 
 //for getting 1
-router.get('/:id', async(req, res) => {
+router.get('/:id', auth, async(req, res) => {
 
     crud.getTaskById(req, res);
 

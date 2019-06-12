@@ -8,7 +8,7 @@ module.exports = {
     getTasks: async function (req, res){
 
         const tasks = await Task 
-            .find();
+            .find({owner: req.user});
         return res.send(tasks);
 
     },
@@ -27,6 +27,7 @@ module.exports = {
         const {error} = validateNewTask(req.body);
        
         if (error){return res.boom.badRequest(error.details[0].message)}
+        
 
         const task = new Task( {
 
@@ -63,9 +64,7 @@ module.exports = {
         const result = await task.save();
         dbDebugger(result);
         return res.send(task);
-    
-    
-        
+       
     },
 
 
@@ -80,7 +79,7 @@ module.exports = {
 
     deleteAll: async function (req, res){
   
-        return (Task.deleteMany({}, err => {dbDebugger(err);}))
+        return (Task.deleteMany({owner: req.user}, err => {dbDebugger(err); throw err;}))
        
     }
 };

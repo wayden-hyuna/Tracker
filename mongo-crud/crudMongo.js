@@ -19,7 +19,7 @@ module.exports = {
         if(!task){return res.boom.notFound('task with given id not found.')}; 
         return res.send(task);
     
-},
+    },
 
 
     createTask: async function (req, res){
@@ -43,7 +43,6 @@ module.exports = {
         return res.send(task);
         
     },
-
 
     updateTask: async function (req, res){
         
@@ -74,7 +73,6 @@ module.exports = {
         if(!result){return res.boom.notFound('task with given id not found.')}; 
         return res.send(result);
     
-        
     },
 
     deleteAll: async function (req, res){

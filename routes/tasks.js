@@ -15,14 +15,12 @@ if(process.env.NODE_ENV == 'development'){
     router.use(morgan('combined', { stream: accessLogStream, /*skip: function (req, res) { return res.statusCode < 400 }*/ }));
 }
 
-
 //for getting all
 router.get('/', auth, async (req, res) =>{
 
     crud.getTasks(req, res);
 
 });
-
 
 //for getting 1
 router.get('/:id', auth, async(req, res) => {
@@ -38,7 +36,6 @@ router.post('/', auth, async(req, res) =>{
 
 });
 
-
 //for updating
 router.put('/:id', auth, async(req, res) => {
     
@@ -46,13 +43,14 @@ router.put('/:id', auth, async(req, res) => {
 
 });
 
-//for deleting
+//for deleting one
 router.delete('/:id', auth, async(req, res) => {
 
     crud.deleteOne(req, res);
 
 });
 
+//for deleting
 router.delete('/', auth, async(req, res) => {
 
     crud.deleteAll(req, res);

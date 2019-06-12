@@ -7,4 +7,5 @@ module.exports = function () {
     .then(() => winston.info('Connected to MongoDB...'));   
     mongoose.set('useCreateIndex', true);
 
+    
 }

@@ -25,7 +25,9 @@ const Task = mongoose.model('Task', new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    completed: {type: Date, default: null}
+    completed: {type: Date, default: null},
+
+    owner:{type: String, required: true }
 }));
 
 

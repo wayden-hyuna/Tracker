@@ -25,14 +25,15 @@ module.exports = {
     createTask: async function (req, res){
 
         const {error} = validateNewTask(req.body);
-        
+       
         if (error){return res.boom.badRequest(error.details[0].message)}
 
         const task = new Task( {
 
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status, 
+            status: req.body.status,
+            owner: req.user 
 
         });
 

@@ -27,7 +27,7 @@ process.on('uncaughtException', (ex) =>{
 
 
 winston.add(new winston.transports.File({
-  filename: 'errlogfile.log',
+  filename: '../logs/errlogfile.log',
   handleExceptions: true,
   level: 'info'
 }));
@@ -42,6 +42,7 @@ if(!config.get('jwtPrivateKey')){
 mongoose.connect('mongodb://localhost/todo-trackerDB', {useNewUrlParser: true})
 .then(() => dbDebugger('Connected to MongoDB...'))
 .catch((err) => console.error('Could not connect to MongoDB \n', err));
+mongoose.set('useCreateIndex', true);
 
 
 //Middleware
@@ -77,7 +78,6 @@ app.engine(
   //Configuration
   //setting private key in the environment using export=tracker_jwtPrivateKey=mySecureKey
   
-  console.log('Application Name: ' + config.get('name'));
   
   
   
@@ -93,10 +93,11 @@ app.engine(
     app.use(morgan('combined', { stream: accessLogStream, /*skip: function (req, res) { return res.statusCode < 400 }*/ }));
   }
   
+  console.log('Application Name: ' + config.get('name'));
   
   
   //route params for necessary info
   //query string params for any additional data
   //When using debugging, you have to set the environment variable to the namespace for that particular debugger....export DEBUG=app:startup etc. or multiple DEBUG=app:startup,app:db OR use wild card DEBUG=app:*
   
-throw new Error("Something happened");
+  //throw new Error("Something happened");

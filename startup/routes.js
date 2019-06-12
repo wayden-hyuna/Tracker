@@ -16,7 +16,7 @@ module.exports = function (app) {
         hbs({
             extname: "hbs",
             defaultLayout: "layout",
-            layoutsDir: __dirname + "/public/views/layouts"
+            layoutsDir: __dirname + "/../public/views/layouts"
         })
     );  
     app.set("views", path.join(__dirname, "/public/views"));
@@ -31,9 +31,9 @@ module.exports = function (app) {
     app.use('/api/auth', auth);
     app.use('/api/users', registers);
     app.use('/api/tasks', tasks);
-    app.use(express.static(__dirname + "/public/css"));
-    app.use(express.static(__dirname + "/public/views"));
-    app.use(express.static(__dirname + "/public/js"));
+    app.use(express.static(__dirname + "/../public/css"));
+    app.use(express.static(__dirname + "/../public/views"));
+    app.use(express.static(__dirname + "/../public/js"));
     app.use(express.static(__dirname));
     app.use(error);
     

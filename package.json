@@ -4,7 +4,7 @@
   "description": "tracker ",
   "main": "todo-track.js",
   "scripts": {
-    "test": "jest --watchAll"
+    "test": "jest --watchAll --verbose"
   },
   "author": "",
   "license": "ISC",

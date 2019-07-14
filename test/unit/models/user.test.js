@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 describe('user.generateAuthToken', () => {
 
-    it('should return a valiud JWT', () => {
+    it('should return a valid JWT', () => {
 
         const payload = {_id: new mongoose.Types.ObjectId().toHexString()};
         const user = new User(payload);
